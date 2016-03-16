@@ -1,0 +1,22 @@
+package: Stereo Measurement Tool
+author: Scott Willman
+version: 1.1
+rv: 3.10.11
+requires: ''
+
+modes:
+    - file: stereo_measurement_tool
+      load: immediate
+
+description: |
+    <p>
+        <p>This tool is to measure stereo separation along the x axis.</p>
+        <p>
+            <p><b>Usage:</b></p>
+            <p><em>ctrl+shift+left-mouse-drag</em> on the image to measure the distances between the two images.</p>
+        </p>
+        <p>
+            <p><b>Release Notes:</b></p>
+            <p>Substituted a bunch of manual coordinate conversions for <em>PixelImageInfo.px</em>.</p>
+        </p>
+    </p>

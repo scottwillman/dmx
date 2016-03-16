@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Paper Test</title>
+        <script src="js/lib/paper.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/lib/mootools-core-1.3.2-full-nocompat-yc.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/SimGraph.js" type="text/paperscript" canvas="myCanvas"></script>
+        
+        <style type="text/css" media="screen">
+            .propertiesGroup {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                font-family: "Verdana", sans;
+                font-size: 12px;
+            }
+            .propertiesGroup li {
+                margin-bottom: 3px;
+            }
+            .propertiesGroup label {
+                width: 80px;
+                margin-right: 6px;
+            }
+            /*#myCanvas {
+                width: 750px;
+            }*/
+        </style>
+    </head>
+    <body>
+        <div>
+            <input type="button" value="Source" onClick="createNode('Source')" />
+            <input type="button" value="Random" onClick="var node = simGraph.createNode('Random')" />
+            <input type="button" value="Add" onClick="simGraph.createNode('Sum')" />
+            <input type="button" value="Multiply" onClick="simGraph.createNode('Multiply')" />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" value="Run" onClick="simGraph.evaluateGraph()" />
+        </div>
+        <div>
+            <div id="leftPanel" style="float:left">
+                <canvas id="myCanvas" style="border:1px solid #999999" width="750px" height="600px"></canvas>
+            </div>
+            <div id="rightPanel" style="float:left;width:300px;height:600px;border:1px solid #999999">
+                <div id="propertiesContainer" style="padding:12px"></div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" charset="utf-8">
+        
+        function createNode(nodeType) {
+            var propContainer = $('propertiesContainer');
+            var node = simGraph.createNode(nodeType, propContainer);
+        }
+        
+        window.addEvent('domReady', function() {
+            alert(simGraph);
+            // var node1 = app.createNode('Source', 'Source1', [100,10]);
+            //                         node1.setValue(2);
+            // var node2 = app.createNode('Source', 'Source2', [300,10]);
+            // node2.setValue(2);
+            // var node3 = app.createNode('Sum', 'Add1', [200,150]);
+            // var node4 = app.createNode('Multiply', 'Mult1', [300,300]);
+            // app.connectNodes(node1, node3);
+            // app.connectNodes(node2, node3);
+            // app.connectNodes(node3, node4);
+            // app.connectNodes(node2, node4);
+            // app.evaluateGraph();
+            
+        });
+    </script>
+</html>
