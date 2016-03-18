@@ -3,19 +3,6 @@
 import os, sys, re
 
 
-def get_all_files_in_subdirs(base_path):
-	paths = []
-	for root, dirs, files in os.walk(base_path):
-		files_to_sort = []
-		for f in files:
-			if f.startswith('.'): continue
-			files_to_sort.append(os.path.join(root,f))
-		sorted_files = group_file_sequences(files_to_sort)
-		if sorted_files:
-			paths += sorted_files
-	return paths
-
-
 def group_file_sequences(files):
 	'''
 	Generic function to sort and group files into
@@ -86,3 +73,16 @@ def group_file_sequences(files):
 
 
 	return results
+
+
+def get_all_files_in_subdirs(base_path):
+	paths = []
+	for root, dirs, files in os.walk(base_path):
+		files_to_sort = []
+		for f in files:
+			if f.startswith('.'): continue
+			files_to_sort.append(os.path.join(root,f))
+		sorted_files = group_file_sequences(files_to_sort)
+		if sorted_files:
+			paths += sorted_files
+	return paths
