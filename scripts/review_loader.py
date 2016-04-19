@@ -6,6 +6,8 @@ from dmx.lib import paths
 
 
 base_path = sys.argv[1]
+
+RV_PATH = "/Applications/RV64.app/Contents/MacOS/RV"
 ALLOWED_EXTENSIONS = ['exr','mov']
 
 all_files = paths.get_all_files_in_subdirs(base_path)
@@ -24,5 +26,8 @@ for group in groups[0]:
     if ext in ALLOWED_EXTENSIONS:
         paths.append("[ %s ]" % group['left'])
 
+rv_params = " ".join(paths)
 
-print " ".join(paths)
+cmd = "%s %s -eval 'pushEventTable(\"stereo\");' -present" % (RV_PATH, rv_params)
+
+os.system(cmd)
