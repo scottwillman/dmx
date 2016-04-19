@@ -13,6 +13,13 @@ def group_file_sequences(files):
 		"filename.1001-1200#.ext",
 		"filename.1004-1006,1009-1020#.ext",
 	]
+
+	TODO: Find a way to handle frame ranges that are left padded
+	with zeros. Check for leading zero because that is the only
+	padding that could exist that would be stripped off.
+
+	Ranges with differing precision would naturally add precision
+	as the number grows. No need to do any handling in this case.
 	'''
 
 	pattern = r"^(.+)\.(\d+)\.(.+)$"
