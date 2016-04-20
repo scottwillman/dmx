@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 import os, sys, re
+# from pprint import pprint
 
-
-def group_file_sequences(files):
+def group_file_sequences(files, padding_type="standard"):
 	'''
 	Generic function to sort and group files into
 	sequences starting from an input file list.
@@ -14,7 +14,11 @@ def group_file_sequences(files):
 		"filename.1004-1006,1009-1020#.ext",
 	]
 
-	TODO: Find a way to handle frame ranges that are left padded
+	padding_type:
+		"standard" == "1001-1020#"
+		"precision" == "001001-001020@@@@@@"
+
+	Done: Find a way to handle frame ranges that are left padded
 	with zeros. Check for leading zero because that is the only
 	padding that could exist that would be stripped off.
 
@@ -34,31 +38,33 @@ def group_file_sequences(files):
 			fnum  = match.group(2)
 			ext   = match.group(3)
 
-
 			idx = "%s||%s" % (fname, ext)
 			if idx in groups.keys():
-				groups[idx].append(int(fnum))
+				groups[idx].append(fnum)
 			else:
-				groups[idx] = [int(fnum)]
+				groups[idx] = [fnum]
 		else:
 			non_groups.append(f)
 
 	results = []
 	for g in groups.keys():
-		frames = sorted(groups[g])
+		precision = len(groups[g][0])
+
+		frames = sorted(map(int, groups[g]))
 		fname,ext = g.split('||')
 
 		if len(frames) == 1:
 			non_groups.append(g.replace('||',".%d." % frames[0]))
 		else:
-			low  = frames[0]
-			high = frames[-1]
+			low  = int(frames[0])
+			high = int(frames[-1])
 
 			ranges = [[]]
 			group_num = 0
 			for x in range(low, high+1):
+
 				if x in frames:
-					ranges[group_num].append(x)
+					ranges[group_num].append(str(x).zfill(precision))
 				else:
 					try:
 						if len(ranges[group_num]):
@@ -67,17 +73,21 @@ def group_file_sequences(files):
 					except IndexError:
 						group_num += 1
 						ranges.append([])
-
 			sequence = ""
+
 			for r in ranges:
 				if sequence: sequence += ","
-				sequence += "%d-%d" % (r[0], r[-1])
-			sequence = "%s.%s#.%s" % (fname, sequence, ext)
+				sequence += "%s-%s" % (r[0], r[-1])
+
+			if padding_type == "precision":
+				sequence = "%s.%s%s.%s" % (fname, sequence, "@"*precision, ext)
+			else: # includes "standard"
+				sequence = "%s.%s#.%s" % (fname, sequence, ext)
+
 			results.append(sequence)
 
 	if non_groups:
 		results = results+non_groups
-
 
 	return results
 
@@ -89,7 +99,7 @@ def get_all_files_in_subdirs(base_path):
 		for f in files:
 			if f.startswith('.'): continue
 			files_to_sort.append(os.path.join(root,f))
-		sorted_files = group_file_sequences(files_to_sort)
+		sorted_files = sorted(files_to_sort)
 		if sorted_files:
 			paths += sorted_files
 	return paths

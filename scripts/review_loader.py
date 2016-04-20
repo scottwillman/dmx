@@ -16,7 +16,7 @@ RV_PATH = "/Applications/RV64.app/Contents/MacOS/RV"
 
 
 all_files = paths.get_all_files_in_subdirs(args.dir)
-seqs      = paths.group_file_sequences(all_files)
+seqs      = paths.group_file_sequences(all_files, padding_type="precision")
 groups    = paths.find_and_group_paths(seqs)
 
 
@@ -31,7 +31,7 @@ for group in groups[0]:
         print "ERROR:", group
         continue
 
-    if ext in ALLOWED_EXTENSIONS:
+    if ext in args.formats:
         paths.append("[ %s ]" % group['left'])
 
 rv_params = " ".join(paths)
