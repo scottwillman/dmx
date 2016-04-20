@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 
-import os, sys
+import os, sys, argparse
 sys.path.append("../../")
 from dmx.lib import paths
 
 
-base_path = sys.argv[1]
+ALLOWED_EXTENSIONS = ['exr','mov']
+
+parser = argparse.ArgumentParser(description='Build and launch an RV session based on the contents of a supplied directory.')
+parser.add_argument('--dir', help='Directory containing images', required=True)
+parser.add_argument('--formats', nargs="+", default=ALLOWED_EXTENSIONS)
+args = parser.parse_args()
 
 RV_PATH = "/Applications/RV64.app/Contents/MacOS/RV"
-ALLOWED_EXTENSIONS = ['exr','mov']
-# ALLOWED_EXTENSIONS = ['exr']
 
-all_files = paths.get_all_files_in_subdirs(base_path)
+
+all_files = paths.get_all_files_in_subdirs(args.dir)
 seqs      = paths.group_file_sequences(all_files)
 groups    = paths.find_and_group_paths(seqs)
 

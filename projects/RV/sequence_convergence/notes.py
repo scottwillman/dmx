@@ -3,4 +3,4 @@ http://www.tweaksoftware.com/static/documentation/rv/current/html/rv_reference.h
 # Relative stereo offset for both eyes.
 #
 # stereo.rightOffset float 1
-# Stereo offset for right eye only.
+# Stereo offset for right eye onlyself.
