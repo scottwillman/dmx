@@ -92,13 +92,20 @@ def group_file_sequences(files, padding_type="standard"):
 	return results
 
 
-def get_all_files_in_subdirs(base_path):
+def get_all_files_in_subdirs(base_path, ignore_hidden_files=True, ignore_file_types=[]):
 	paths = []
 	for root, dirs, files in os.walk(base_path):
 		files_to_sort = []
 		for f in files:
-			if f.startswith('.'): continue
+
+			if ignore_hidden_files:
+				if f.startswith('.'): continue
+
+			if ignore_file_types:
+				if f.endswith(tuple(ignore_file_types)): continue
+
 			files_to_sort.append(os.path.join(root,f))
+
 		sorted_files = sorted(files_to_sort)
 		if sorted_files:
 			paths += sorted_files
