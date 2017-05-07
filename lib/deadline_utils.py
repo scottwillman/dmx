@@ -44,3 +44,17 @@ def deadline_buildPluginInfoFile(file_to_render, job_name, job_files_dir, write_
         for line in data:
             f.write(line + '\n')
     return file_path
+
+
+## USAGE EXAMPLE ##
+# chunk_size = deadline_utils.getRenderChunkSize(in_frame, out_frame)
+#
+# job_name = "auto_comp_%s_v%03d.nk" % (shot_name, next_version)
+#
+# job_info_file_path = deadline_utils.deadline_buildJobInfoFile(in_frame, out_frame, job_name, chunk_size, job_files_dir, priority=90)
+# plugin_info_file_path = deadline_utils.deadline_buildPluginInfoFile(out_script_path, job_name, job_files_dir)
+#
+# cmd = '/Applications/Thinkbox/Deadline6/DeadlineCommand.app/Contents/MacOS/DeadlineCommand %s %s' % (job_info_file_path, plugin_info_file_path)
+# print "Launching to Queue: %s" % cmd
+# os.system(cmd)
+##
