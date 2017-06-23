@@ -10,6 +10,8 @@ ALLOWED_EXTENSIONS = ['exr','mov']
 parser = argparse.ArgumentParser(description='Build and launch an RV session based on the contents of a supplied directory.')
 parser.add_argument('--dir', help='Directory containing images', required=True)
 parser.add_argument('--formats', nargs="+", default=ALLOWED_EXTENSIONS)
+parser.add_argument('--fileLUT')
+parser.add_argument('--displayLUT')
 args = parser.parse_args()
 
 RV_PATH = "/Applications/RV64.app/Contents/MacOS/RV"
@@ -32,10 +34,16 @@ for group in groups[0]:
         continue
 
     if ext in args.formats:
-        paths.append("[ %s ]" % group['left'])
+        if args.fileLUT:
+            output = "[ %s -flut %s ]" % (group['left'], args.fileLUT)
+        else:
+            output = "[ %s ]" % group['left']
+        paths.append(output)
 
 rv_params = " ".join(paths)
 
 cmd = "%s %s -eval 'pushEventTable(\"stereo\");' -present" % (RV_PATH, rv_params)
+if args.displayLUT:
+    cmd += " -dlut %s" % args.displayLUT
 
 os.system(cmd)
